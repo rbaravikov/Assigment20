@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assigment20</title>
+    <style>
+        table {
+            border: 2px solid black;
+        }
+        th {
+            border-bottom: 2px solid black;
+        }
+        img {
+            width: 150px;
+        }
+    </style>
+
+</head>
+<body>
+
+    <button><a href="add.html">Add new Car</a></button>
+    <table>
+        <tr>
+            <th>Brand</th>
+            <th>Model</th>
+            <th>Image</th>
+        </tr>
+    </table>
+
+
+</body>
+
+<script>
+    const API_URL = "https://open-long-puck.glitch.me"
+    fetch(API_URL, {
+method: "GET"
+}).then(resp => resp.json()).then(data => domData(data))
+
+const domData = (data) => {
+data.map(x => {
+    const table = document.querySelector("table")
+    const row = table.insertRow();
+    row.innerHTML = `<td>${x.brand}</td><td>${x.model}</td><td><img src="${x.image}" alt=""></td>`
+})}
+</script>
+</html>

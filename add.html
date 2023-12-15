@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <form id="form" method="post">
+        <input id="brand" type="text" placeholder="Car brand">
+        <input id="model" type="text" placeholder="Car model">
+        <button id="addButton" type="submit">Done</button>
+    </form>
+    <button><a href="index.html">Go back</a></button>
+</body>
+<script>
+    const API_URL = "https://open-long-puck.glitch.me"
+const addBtn = document.getElementById("addButton")
+const form = document.getElementById("form")
+const brand = document.getElementById("brand")
+const model = document.getElementById("model")
+
+
+addBtn.addEventListener('click', (e) => {
+    e.preventDefault()
+
+    if(!brand.value || !model.value)  return alert("Užpildykite visus laukelius")
+    
+    const addCar =  {
+        brand: brand.value,
+        model: model.value,
+    }
+
+    fetch(API_URL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(addCar)
+    })
+    .then(resp => resp.json())
+    .then(data => {
+        const msg = document.querySelector("h1")
+        const h1 = document.createElement("h1")
+        if(msg) msg.remove()
+
+        if(data.msg === 'Car added') {
+            h1.innerText = "Automobilis pridėtas sėkmingai"
+            document.body.insertBefore(h1, document.body.firstChild)
+        } else {
+            h1.innerText = "Automobilio pridėti nepavyko"
+            document.body.insertBefore(h1, document.body.firstChild)
+        }})
+        .catch(err => console.log(err))
+
+        brand.value = ""
+        model.value = ""
+})
+</script>
+</html>
